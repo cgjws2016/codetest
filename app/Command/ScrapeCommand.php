@@ -16,13 +16,25 @@ class ScrapeCommand extends Command
             ->setDescription('Greet someone')
             ->addArgument(
                 'url',
-                InputArgument::OPTIONAL,
+                InputArgument::REQUIRED,
                 'A listings page to scrape.'
+            )
+            ->addArgument(
+                'format',
+                InputArgument::OPTIONAL,
+                'Output format'
             )
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if($input->getArgument('format') == 'xml') {
+            $text = "<element><item>This</item></element>";
+        } else {
+            $text = json_encode("Test");
+        }
+        
+        $output->writeln($text);
     }
 }

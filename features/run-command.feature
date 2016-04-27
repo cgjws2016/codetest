@@ -18,4 +18,4 @@ Feature: Run scrape command
 
   Scenario: Running scrape command with no arguments
     When I run "scrape" command
-    Then I should see "Hello"
+    Then I should receive exception of class "Symfony\Component\Console\Exception\RuntimeException"
