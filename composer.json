@@ -1,0 +1,13 @@
+{
+    "require": {
+        "symfony/console": "^3.0",
+        "fabpot/goutte": "^3.1"
+    },
+    "autoload": {
+    	"psr-4": { "SainsBot\\": "app" }
+	},
+    "require-dev": {
+        "behat/behat": "^3.1",
+        "bossa/phpspec2-expect": "^1.0"
+    }
+}
