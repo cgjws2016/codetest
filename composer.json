@@ -1,8 +1,7 @@
 {
     "require": {
         "symfony/console": "^2.8",
-        "fabpot/goutte": "^3.1",
-        "symfony/dom-crawler": "^3.0"
+        "symfony/dom-crawler": "^2.8"
     },
     "autoload": {
     	"psr-4": { "SainsBot\\": "app" }
