@@ -10,9 +10,11 @@ use \Mockery as m;
 class ScraperTest extends PHPUnit_Framework_TestCase {
 
 	private $_content;
+	private $_product;
 
 	public function setUp() {
 		$this->_content = file_get_contents('./tests/contains-products.html');
+		$this->_product = file_get_contents('./tests/single-product.html');
 	}
 
 	public function testCachesContent()
@@ -92,7 +94,7 @@ class ScraperTest extends PHPUnit_Framework_TestCase {
 
 		$strategy->shouldReceive('fetch')
 				 ->times(7)
-				 ->andReturn('foobar');
+				 ->andReturn($this->_product);
 		$parser = new SainsBot\Scraper\Parser\DomCrawlerParser();
 
 		$scraper = new Scraper($strategy, $parser); 
@@ -101,6 +103,8 @@ class ScraperTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals(count($collection->items()), 7);
 		$this->assertEquals($collection->items()[0]->getName(), "Sainsbury's Apricot Ripe & Ready x5");
+		$this->assertEquals($collection->items()[0]->getPageSize(), strlen($this->_product));
+		$this->assertEquals($collection->items()[0]->getDescription(), "Apricots\nThis is a second line");
 	}
 
 

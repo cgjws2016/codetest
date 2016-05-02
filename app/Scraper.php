@@ -103,7 +103,7 @@ class Scraper {
 	public function scrape() {
 		$content = $this->getContent();
 		$collection = $this->getParser()->parse($content);
-		
+
 		foreach($collection->items() as $product) {
 			$this->scrapeProduct($product);
 		}
@@ -120,7 +120,10 @@ class Scraper {
 	public function scrapeProduct($product) {
 		$content = $this->getStrategy()->fetch($product->getHref());
 		$result = $this->getParser()->parseProduct($content);
+
 		$product->setPageSize($result->getPageSize());
+		$product->setDescription($result->getDescription());
+
 		return $product;
 	}
 }
