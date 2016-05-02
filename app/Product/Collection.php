@@ -16,7 +16,11 @@ class Collection {
 	}
 
 	public function total() {
-
+		$total = 0;
+		foreach($this->items() as $product) {
+			$total += $product->getPrice();
+		}
+		return $total;
 	}
 
 	public function items() {
