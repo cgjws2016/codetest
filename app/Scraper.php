@@ -1,0 +1,126 @@
+<?php
+
+namespace SainsBot;
+
+use SainsBot\Scraper\StrategyInterface;
+use SainsBot\Scraper\ParserInterface;
+
+/**
+ *
+ */
+class Scraper {
+
+	/**
+	 * Fetch strategy for grabbing/caching content
+	 * @var StrategyInterface
+	 */
+	private $_strategy;
+
+	/**
+	 * Target of URI to scrape
+	 * @var str
+	 */
+	private $_target;
+
+	/**
+	 * Parser class to handle scraped content
+	 * @var ParserInterface
+	 */
+	private $_parser;
+
+	/**
+	 * Content stored from scraper - used for caching
+	 * @var string
+	 */
+	private $_content;
+
+	/**
+	 * Creates a Scraper object - used to scrape content from a website, and return
+	 * a collection of product objects
+	 * @param StrategyInterface $strategy
+	 * @param ParserInterface   $parser
+	 */
+	public function __construct(StrategyInterface $strategy, ParserInterface $parser) {
+		$this->setStrategy($strategy);
+		$this->setParser($parser);
+	}
+
+	/**
+	 * Get the current strategy
+	 * @return StrategyInterface
+	 */
+	public function getStrategy() {
+		return $this->_strategy;
+	}
+
+	/**
+	 * Sets the strategy for this Scraper
+	 * @param StrategyInterface $strategy
+	 */
+	public function setStrategy(StrategyInterface $strategy) {
+		$this->_strategy = $strategy;
+		return $this;
+	}
+
+
+	public function getTarget() {
+		return $this->_target;
+	}
+
+	public function setTarget($url) {
+		$this->_target = $url;
+		return $this;
+	}
+
+	public function setParser(ParserInterface $parser) {
+		$this->_parser = $parser;
+	}
+
+	public function getParser() {
+		return $this->_parser;
+	}
+
+	/**
+	 * Fetches the content from the target, using the set strategy. Will cache
+	 * content the first time it's called, to save on HTTP requests
+	 * @return str HTML of scraped page
+	 */
+	public function getContent() {
+		if($this->_content == NULL) {
+			$content = $this->getStrategy()->fetch($this->getTarget());
+			$this->_content = $content;
+		}
+
+		return $this->_content;
+	}
+
+ 	/**
+ 	 * Main function of Scraper class - will use selected scraping strategy
+ 	 * to fetch HTML, and selected parser class to transform HTML into a collection
+ 	 * of products
+ 	 * @return collection A collection of Product objects
+ 	 */
+	public function scrape() {
+		$content = $this->getContent();
+		$collection = $this->getParser()->parse($content);
+		
+		foreach($collection->items() as $product) {
+			$this->scrapeProduct($product);
+		}
+
+		return $collection;
+	}
+
+ 	/**
+ 	 * Scrape product data from a specific product page. This bypasses the target
+ 	 * set on the scraper, and instead pulls from a passed Product object.
+ 	 * @param Product $product A product to scrape data for
+ 	 * @return Product The passed Product, but with additional data added
+ 	 */
+	public function scrapeProduct($product) {
+		$content = $this->getStrategy()->fetch($product->getHref());
+		$result = $this->getParser()->parseProduct($content);
+		$product->setPageSize($result->getPageSize());
+		return $product;
+	}
+}

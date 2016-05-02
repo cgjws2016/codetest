@@ -8,6 +8,9 @@ class Collection {
 
 	private $_items;
 
+	public function __construct($items = array()) {
+		$this->_items = $items;
+	}
 	public function add(Product $product) {
 		$this->_items[] = $product;
 	}
