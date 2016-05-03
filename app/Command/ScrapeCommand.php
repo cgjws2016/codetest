@@ -16,7 +16,7 @@ class ScrapeCommand extends Command
     {
         $this
             ->setName('scrape')
-            ->setDescription('Greet someone')
+            ->setDescription('Scrape product data from a store URL')
             ->addArgument(
                 'url',
                 InputArgument::REQUIRED,
@@ -39,7 +39,8 @@ class ScrapeCommand extends Command
         $collection = $scraper->scrape();
 
         // We're only using JSON for now, but there's no reason not to support
-        // other formats or output types in the future.
+        // other formats or output types in the future - method is stubbed but 
+        // included as an example.
         if ($input->getArgument('format') == 'xml') {
             $result = $collection->toXml();
         } else {
