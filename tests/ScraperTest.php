@@ -23,7 +23,8 @@ class ScraperTest extends PHPUnit_Framework_TestCase
                  ->once()
                  ->andReturn('This is some content');
 
-        $parser = new SainsBot\Scraper\Parser\DomCrawlerParser();
+        $parser = m::mock('SainsBot\Scraper\Parser\DomCrawlerParser');
+
         $scraper = new Scraper($strategy, $parser);
 
         $scraper->getContent();
@@ -33,13 +34,16 @@ class ScraperTest extends PHPUnit_Framework_TestCase
     public function testFetchesContent()
     {
         $collection = new SainsBot\Product\Collection();
+
         $strategy = m::mock('SainsBot\Scraper\Strategy\CurlStrategy');
+
         $strategy->shouldReceive('fetch')
                  ->once()
                  ->with('http://example.com')
                  ->andReturn('This is some content');
 
         $parser = m::mock('SainsBot\Scraper\Parser\DomCrawlerParser');
+
         $parser->shouldReceive('parse')
                ->once()
                ->andReturn($collection);
@@ -59,12 +63,13 @@ class ScraperTest extends PHPUnit_Framework_TestCase
         $collection = new Collection(array($product, $product));
 
         $strategy = m::mock('SainsBot\Scraper\Strategy\CurlStrategy');
+
         $strategy->shouldReceive('fetch')
                  ->with('http://example.com')
                  ->andReturn('This is some content');
-        $parser = new SainsBot\Scraper\Parser\DomCrawlerParser();
 
         $parser = m::mock('SainsBot\Scraper\Parser\DomCrawlerParser');
+        
         $parser->shouldReceive('parse')
                ->once()
                ->andReturn($collection);
