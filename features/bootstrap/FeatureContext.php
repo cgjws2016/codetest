@@ -109,4 +109,16 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         expect(get_class($this->exception))->toBe($arg1);
     }
+
+    /**
+     * @Then I should see products json
+     */
+    public function iShouldSeeProductsJson()
+    {
+        $output = $this->tester->getDisplay();
+        $output = json_decode($output, true);
+
+        expect($output['total'])->toBe(15.10);
+
+    }
 }

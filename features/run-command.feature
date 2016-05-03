@@ -9,12 +9,20 @@ Feature: Run scrape command
     | url | http://www.example.com |
     Then I should receive json
 
+  Scenario: Running scrape command with test URL
+    When I run "scrape" command with arguments:
+    | arg | value |
+    | url | hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/5_products.html |
+    Then I should receive json
+    Then I should see products json
+
   Scenario: Running scrape command with arguments
     When I run "scrape" command with arguments:
     | arg | value |
     | url | http://www.example.com |
     | format | xml |
     Then I should receive xml
+
 
   Scenario: Running scrape command with no arguments
     When I run "scrape" command
