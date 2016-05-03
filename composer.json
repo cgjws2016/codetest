@@ -1,7 +1,6 @@
 {
     "require": {
         "symfony/console": "^2.8",
-        "symfony/process":"~2.1",
         "symfony/dom-crawler": "^2.8",
         "symfony/css-selector": "^2.8"
     },
@@ -9,7 +8,7 @@
     	"psr-4": { "SainsBot\\": "app" }
 	},
     "require-dev": {
-        "behat/behat": "^3.1",
+        "behat/behat": "3.0.15",
         "bossa/phpspec2-expect": "^1.0",
         "phpunit/phpunit": "^4.8",
         "mockery/mockery": "^0.9.4"
