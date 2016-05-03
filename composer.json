@@ -1,4 +1,6 @@
 {
+    "name" : "cgjws2016/sainsbot",
+    "description" : "A simple product scraping app for Sainsbury's",
     "require": {
         "php" : "^5.4 || ^7.0",
         "symfony/console": "^2.8",
