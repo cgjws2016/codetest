@@ -7,7 +7,7 @@ composer install --prefer-dist
 
 To run:
 
-./bin/sb scrape <url> --format=<format>
+./bin/sb scrape <url>
 
 To run tests:
 
