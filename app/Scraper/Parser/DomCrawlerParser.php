@@ -10,12 +10,24 @@ use SainsBot\Product\Collection;
 
 class DomCrawlerParser implements ParserInterface {
 
+	/**
+	 * A Symfony DomCrawler object to filter HTML
+	 * @var Crawler
+	 */
 	private $_crawler;
 
+	/**
+	 * Create a new Parser object and initialise a Crawler
+	 */
 	public function __construct() {
 		$this->_crawler = new Crawler();
 	}
 
+	/**
+	 * Takes some HTML content, and pulls out product details
+	 * @param  str $content HTML content from a scraped page
+	 * @return Collection a collection of Product objects
+	 */
 	public function parse($content) {
 		$collection = new Collection();
 
@@ -40,11 +52,11 @@ class DomCrawlerParser implements ParserInterface {
 
 			$product = new Product();
 			$product->setName($name)
-				    ->setHref($href)
-					->setPrice($ppu);
+				      ->setHref($href)
+					    ->setPrice($ppu);
 
 			$collection->add($product);
-			
+
 		});
 
 		return $collection;
@@ -74,7 +86,7 @@ class DomCrawlerParser implements ParserInterface {
 
 		// We do want to preserve newlines though!
 		$desc = implode("\n", $desc);
-		
+
 		$result->setDescription($desc);
 
 		return $result;
