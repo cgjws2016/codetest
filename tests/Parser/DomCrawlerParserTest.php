@@ -40,5 +40,15 @@ class DomCrawlerParserTest extends PHPUnit_Framework_TestCase {
 
 	}
 
+	public function testParsesSingleProductPage() {
+		$parser = new DomCrawlerParser();
+
+		$html = file_get_contents('./tests/single-product.html');
+		$product = $parser->parseProduct($html);
+
+		$this->assertEquals("Apricots\nThis is a second line", $product->getDescription());
+		$this->assertEquals(40054, $product->getPageSize());
+	}
+
 
 }
