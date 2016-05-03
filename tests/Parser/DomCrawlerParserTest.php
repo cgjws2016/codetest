@@ -47,7 +47,7 @@ class DomCrawlerParserTest extends PHPUnit_Framework_TestCase {
 		$product = $parser->parseProduct($html);
 
 		$this->assertEquals("Apricots\nThis is a second line", $product->getDescription());
-		$this->assertEquals(40054, $product->getPageSize());
+		$this->assertEquals(filesize('./tests/single-product.html'), $product->getPageSize());
 	}
 
 
