@@ -6,7 +6,14 @@ use SainsBot\Scraper\StrategyInterface;
 use SainsBot\Scraper\ParserInterface;
 
 /**
+ * The main class used by the console app, the Scraper pulls together
+ * the retrieval of HTML and the subsequent parsing of that HTML. 
  *
+ * I've delivered the scraper with a simple Curl fetching strategy, but the 
+ * idea behind the Strategy is that it's extensible. For example, it could
+ * be extended to add to add proxy support, or in-memory caching of scraped
+ * content - especially useful if you're running multiple scrapers over the
+ * same content sources.
  */
 class Scraper {
 
@@ -88,6 +95,7 @@ class Scraper {
 	public function getContent() {
 		if($this->_content == NULL) {
 			$content = $this->getStrategy()->fetch($this->getTarget());
+
 			$this->_content = $content;
 		}
 
@@ -101,9 +109,17 @@ class Scraper {
  	 * @return collection A collection of Product objects
  	 */
 	public function scrape() {
+
+		// Double check we're actually pointed at a page
+		if($this->getTarget() == NULL) {
+			throw new \Exception('Scraper has no current target');
+		}
+
 		$content = $this->getContent();
 		$collection = $this->getParser()->parse($content);
 
+		// For each product, we need page sizes and descriptions. These
+		// are only available by scraping/parsing the linked product pages.
 		foreach($collection->items() as $product) {
 			$this->scrapeProduct($product);
 		}
