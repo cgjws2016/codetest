@@ -12,7 +12,7 @@ Feature: Run scrape command
   Scenario: Running scrape command with test URL
     When I run "scrape" command with arguments:
     | arg | value |
-    | url | hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/5_products.html |
+    | url | http://hiring-tests.s3-website-eu-west-1.amazonaws.com/2015_Developer_Scrape/5_products.html |
     Then I should receive json
     Then I should see products json
 
