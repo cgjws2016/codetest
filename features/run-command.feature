@@ -16,14 +16,6 @@ Feature: Run scrape command
     Then I should receive json
     Then I should see products json
 
-  Scenario: Running scrape command with arguments
-    When I run "scrape" command with arguments:
-    | arg | value |
-    | url | http://www.example.com |
-    | format | xml |
-    Then I should receive xml
-
-
   Scenario: Running scrape command with no arguments
     When I run "scrape" command
     Then I should receive exception of class "Symfony\Component\Console\Exception\RuntimeException"
