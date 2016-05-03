@@ -20,7 +20,10 @@ class DomCrawlerParser implements ParserInterface {
 		$collection = new Collection();
 
 		$this->_crawler->addContent($content);
+
+		// Look for all the product elements on the page
 		$products = $this->_crawler->filter('div.product');
+
 		$this->_crawler->filter('div.product')->each(
 			function (Crawler $node, $i) use (&$collection) {
 
@@ -29,6 +32,8 @@ class DomCrawlerParser implements ParserInterface {
 			$name = $this->trimText($name->text());
 
 			$ppu = $node->filter('p.pricePerUnit');
+
+			// Prices contain some non-numeric data, so we'll filter separately
 			$ppu = $this->extractPrice(
 				$this->trimText($ppu->text())
 			);
@@ -53,6 +58,10 @@ class DomCrawlerParser implements ParserInterface {
 		$result->setPageSize(strlen($content));
 
 		$desc = array();
+
+		// Description tags look simple, but could theoretically contain
+		// multiple p tags, or empty p tags. So we'll iterate through and
+		// only use the relevant ones.
 		$information = $crawler->filter('#information .productText')->first();
 		$information->filter('p')->each(
 			function (Crawler $node, $i) use (&$desc) {
@@ -63,6 +72,7 @@ class DomCrawlerParser implements ParserInterface {
 			}
 		);
 
+		// We do want to preserve newlines though!
 		$desc = implode("\n", $desc);
 		
 		$result->setDescription($desc);

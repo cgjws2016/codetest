@@ -7,10 +7,13 @@ use SainsBot\Scraper\StrategyInterface;
 class CurlStrategy implements StrategyInterface {
 
 	public function __construct() {
+
+		// Check support!
 	    if (!function_exists('curl_init')){
 	        throw new \Exception('Curl not installed');
 	    }
  
+
 	    $this->ch = curl_init();
  
 	    curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);

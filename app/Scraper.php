@@ -14,6 +14,10 @@ use SainsBot\Scraper\ParserInterface;
  * be extended to add to add proxy support, or in-memory caching of scraped
  * content - especially useful if you're running multiple scrapers over the
  * same content sources.
+ *
+ * The same applies to the parsing classes - by default it uses the DomCrawler
+ * libraries provided by symfony, but it could use more sophisticated methods
+ * such as Goutte or Selenium, if any JS interaction was required.
  */
 class Scraper {
 
