@@ -1,17 +1,16 @@
-Sainsbury's Scraper
-=====
+# Sainsbury's Scraper
 
 To install:
 
-composer install --prefer-dist
+`composer install --prefer-dist`
 
 To run:
 
-./bin/sb scrape <url>
+`./bin/sb scrape <url>`
 
 To run tests:
 
-./bin/run_tests.sh
+`./bin/run_tests.sh`
 
 Code is organised as follows:
 
@@ -21,3 +20,5 @@ Code is organised as follows:
  - bin : executable and test scripts
 
  CI here: https://travis-ci.org/cgjws2016/codetest
+
+[![Build Status](https://travis-ci.org/cgjws2016/codetest.svg?branch=master)](https://travis-ci.org/cgjws2016/codetest)
