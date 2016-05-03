@@ -118,6 +118,21 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $output = $this->tester->getDisplay();
         $output = json_decode($output, true);
 
+        $product_one = array(
+            "title" => "Sainsbury's Apricot Ripe & Ready x5",
+            "size" => "38.27KB",
+            "unit_price" => (float)3.50,
+            "description" => "Apricots"
+        );
+
         expect($output['total'])->toBe(15.10);
+        expect(count($output['results']))->toBe(7);
+
+        $result_one = $output['results'][0];
+
+        expect($result_one['title'])->toBe($product_one['title']);
+        expect($result_one['size'])->toBe($product_one['size']);
+        expect($result_one['unit_price'])->toBe($product_one['unit_price']);
+        expect($result_one['description'])->toBe($product_one['description']);
     }
 }
