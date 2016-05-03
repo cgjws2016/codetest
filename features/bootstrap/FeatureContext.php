@@ -117,8 +117,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         $output = $this->tester->getDisplay();
         $output = json_decode($output, true);
-        var_dump($output);
-        expect($output['total'])->toBe(15.10);
 
+        expect($output['total'])->toBe(15.10);
     }
 }
