@@ -69,4 +69,34 @@ class Product
 
         return $this;
     }
+
+    public function toArray()
+    {
+        $output = array();
+        $output['title'] = $this->getName();
+        $output['size'] = $this->formatPageSize($this->getPageSize());
+        $output['unit_price'] = $this->getPrice();
+        $output['description'] = $this->getDescription();
+
+        return $output;
+    }
+
+    private function formatPageSize($bytes)
+    {
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2).'GB';
+        } elseif ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2).'MB';
+        } elseif ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2).'KB';
+        } elseif ($bytes > 1) {
+            $bytes = $bytes.' bytes';
+        } elseif ($bytes == 1) {
+            $bytes = $bytes.' byte';
+        } else {
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
+    }
 }
