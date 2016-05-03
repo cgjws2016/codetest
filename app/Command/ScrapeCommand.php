@@ -1,6 +1,13 @@
 <?php
 namespace SainsBot\Command;
 
+use SainsBot\Scraper;
+use SainsBot\Scraper\Strategy\CurlStrategy;
+use SainsBot\Scraper\Parser\DomCrawlerParser;
+
+use SainsBot\OutputFormatter\JsonFormatter;
+use SainsBot\OutputFormatter\XmlFormatter;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -29,12 +36,20 @@ class ScrapeCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $scraper = new Scraper(new CurlStrategy(), new DomCrawlerParser());
+
+        $scraper->setTarget($input->getArgument('url'));
+
+        $collection = $scraper->scrape();
+
+        // We're only using JSON for now, but there's no reason not to support
+        // other formats or output types in the future.
         if($input->getArgument('format') == 'xml') {
-            $text = "<element><item>This</item></element>";
+            $result = $collection->toXml();
         } else {
-            $text = json_encode("Test");
+            $result = $collection->toJson();
         }
-        
-        $output->writeln($text);
+
+        $output->writeln($result);
     }
 }
